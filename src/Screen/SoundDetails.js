@@ -75,11 +75,11 @@ const SoundDetails = ({navigation, route}) => {
 
   const dataItems = route.params.item;
   const [pause, setPause] = useState(false);
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(0.2);
   const playbackState = usePlaybackState();
   const progress = useProgress();
   const [repeatMode, setRepeatMode] = useState('off');
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
   useEffect(() => {
     setupPlayer();
     VolumeManager.getVolume().then(volume => setVolume(volume));
@@ -147,7 +147,7 @@ const SoundDetails = ({navigation, route}) => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <StatusBar barStyle={'dark-content'} backgroundColor={AppColor.WHITE} />
+        <StatusBar barStyle={'dark-content'} backgroundColor={AppColor.BACKGROUND} />
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View
             style={{
@@ -212,7 +212,17 @@ const SoundDetails = ({navigation, route}) => {
         </View>
         <TouchableOpacity
           onPress={() => {
-            togglePlayback(playbackState);
+            
+                if (checked) {
+                 // 
+                  console.log("FFFFFFFFf11111",checked)
+                  togglePlayback(playbackState);
+                  changeRepeatMode();
+                } else {
+                  console.log("FFFFFFFFf",checked)
+                  togglePlayback(playbackState);
+                 }
+            // togglePlayback(playbackState);
             if (!pause) {
               setPause(true);
               togglePlayback(playbackState);
@@ -232,8 +242,8 @@ const SoundDetails = ({navigation, route}) => {
             justifyContent: 'center',
           }}>
           <Icon
-            // name={!pause ? 'play' : 'pause'}
-            name={playbackState.state === State.Playing ? 'pause' : 'play'}
+            name={!pause ? 'play' : 'pause'}
+            // name={playbackState.state === State.Playing ? 'pause' : 'play'}
             size={40}
             color={AppColor.WHITE}
           />
@@ -261,26 +271,29 @@ const SoundDetails = ({navigation, route}) => {
               style={{padding: 5}}
               onClick={() => {
                 setChecked(!checked);
-                if (!checked) {
-                  changeRepeatMode();
-                } else {
-                  if (repeatMode == 'off') {
-                    TrackPlayer.setRepeatMode(RepeatMode.Off);
-                    setRepeatMode('track');
-                  }
+                // if (!checked) {
+                //   changeRepeatMode();
+                //   console.log("FFFFFFFFf11111",checked)
+                // } else {
+                //   console.log("FFFFFFFFf",checked)
+                // }
+                //   if (repeatMode == 'off') {
+                //     TrackPlayer.setRepeatMode(RepeatMode.Off);
+                //     setRepeatMode('track');
+                //   }
 
-                  if (repeatMode == 'track') {
-                    TrackPlayer.setRepeatMode(RepeatMode.Off);
-                    setRepeatMode('off');
-                  }
+                //   if (repeatMode == 'track') {
+                //     TrackPlayer.setRepeatMode(RepeatMode.Off);
+                //     setRepeatMode('off');
+                //   }
 
-                  if (repeatMode == 'repeat') {
-                    TrackPlayer.setRepeatMode(RepeatMode.Off);
-                    setRepeatMode('off');
-                  }
+                //   if (repeatMode == 'repeat') {
+                //     TrackPlayer.setRepeatMode(RepeatMode.Off);
+                //     setRepeatMode('off');
+                //   }
 
-                  //TrackPlayer.setRepeatMode(RepeatMode.Queue);
-                }
+                //   //TrackPlayer.setRepeatMode(RepeatMode.Queue);
+                // }
                 // changeRepeatMode(!checked)
               }}
               isChecked={checked}
@@ -367,7 +380,7 @@ const SoundDetails = ({navigation, route}) => {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: AppColor.WHITE,
+    backgroundColor: AppColor.BACKGROUND,
   },
   slider: {
     width: DeviceWidth * 0.65,
